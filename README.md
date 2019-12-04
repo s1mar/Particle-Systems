@@ -33,3 +33,8 @@ destroyed
 * The remaining particles are transformed and moved according
 to their dynamic attributes
 * An image of the remaining particles is rendered
+
+
+ ### Demo
+ ![](psdemo.gif)  
+ If gif not viewable, please checkout the YouTube Link: <https://youtu.be/eslsMUzghZ4>  
