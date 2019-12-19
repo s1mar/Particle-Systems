@@ -24,9 +24,8 @@ public class Particle : MonoBehaviour
     //The forces that have accumulated on the particle under observation
     List<Vector3> cummulativeOfForces = new List<Vector3>(0);
 
-    bool considerAffectsOfGravity = false;
 
-    const float GRAVITY = 6.673e-11f;
+    
 
     bool startEngine = false;
 
@@ -46,7 +45,7 @@ public class Particle : MonoBehaviour
             {
                 //TODO : decayIntensity();
                 forceProcessing(Time.deltaTime);
-                processAffectsOfGravity();
+                //processAffectsOfGravity();
             }
             else
             {
@@ -75,38 +74,6 @@ public class Particle : MonoBehaviour
         transform.position += velocity * deltaTime;
     }
 
-
-    void processAffectsOfGravity() {
-        Particle[] particlesForGravity;
-
-        if (considerAffectsOfGravity)
-        {
-            particlesForGravity = GameObject.FindObjectsOfType<Particle>();
-        }
-        else {
-            //early exit
-            return;
-        }
-
-        foreach (Particle A in particlesForGravity)
-        {
-            foreach (Particle B in particlesForGravity)
-            {
-                if (A != B)
-                {
-                  
-                    Vector3 differenceAB = A.transform.position - B.transform.position;
-                    float rs = Mathf.Pow(differenceAB.magnitude, 2f);
-                    float magnitudeOfGravity = GRAVITY * mass * mass / rs;
-                    Vector3 gravityFeltOnA = magnitudeOfGravity * differenceAB.normalized;
-
-                    A.AddForce(-gravityFeltOnA);
-                }
-            }
-        }
-
-    }
-
     public void AddForce(Vector3 force) {
         cummulativeOfForces.Add(force);
     }
@@ -121,15 +88,38 @@ public class Particle : MonoBehaviour
         return currentTimeToLive>0;
     }
 
-    public  void initializeParticleInstance(float mass, float ttl, bool enableGravity = false) {
+    public  void initializeParticleInstance(float mass, float ttl) {
 
         
         this.mass = mass;
         this.timeToLive = ttl;
-        considerAffectsOfGravity = enableGravity;
         this.currentTimeToLive = timeToLive;
         
     }
     
+
+    //Code below for collision detection
+     public float radius;
+     Renderer rend;   
+
+       void Start(){
+        rend = GetComponent<Renderer>();
+        radius = rend.bounds.extents.magnitude;
+    }
+
+     public Vector3 getCenterPosition(){
+        return transform.position;
+    }
+
+    public float getRadius(){
+       return radius;
+    }
+
+    public Vector3 getCenter(){
+        return rend.bounds.center;
+    }
     
+    public float getMass(){
+        return mass;
+    }
 }

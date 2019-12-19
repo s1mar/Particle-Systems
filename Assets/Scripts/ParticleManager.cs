@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class ParticleManager : MonoBehaviour
 {
     public PARTICLE_ORIGIN origin = PARTICLE_ORIGIN.BACKWARD;
+
+    private const float GRAVITY = 6.673e-11f;
 
     [SerializeField]
     float particleScale = 1.0f;
@@ -47,7 +50,7 @@ public class ParticleManager : MonoBehaviour
     [Range(1, 100)]
     private int particleCreationFactor = 1;
 
-    
+    public List<Particle> particles = new List<Particle>(0); //the affects of gravity would be affected on these particles
 
     void Awake(){
 
@@ -66,6 +69,33 @@ public class ParticleManager : MonoBehaviour
         //update the position of the particle emitter with the moving source, it should be at the center of it always
         transform.position = emitterSource.transform.position;
         generateParticles();
+        affectsOfGravity();
+    }
+
+    void affectsOfGravity(){
+
+            if(enableGravity){
+                    
+                foreach (Particle A in particles)
+                {
+                    foreach (Particle B in particles)
+                    {
+                        if ((A!= null && B!=null) && A != B)
+                        {
+                        
+                            Vector3 differenceAB = A.transform.position - B.transform.position;
+                            float rs = Mathf.Pow(differenceAB.magnitude, 2f);
+                            float magnitudeOfGravity = GRAVITY * mass * mass / rs;
+                            Vector3 gravityFeltOnA = magnitudeOfGravity * differenceAB.normalized;
+                            Debug.Log("Gravity added on A: "+ -gravityFeltOnA);
+                            A.AddForce(-gravityFeltOnA);
+                        }else{
+                            Debug.Log("Null case");
+                        }
+                    }
+                }
+
+        }
     }
 
     Vector3 multiplyComponents(Vector3 A, Vector3 B)
@@ -93,7 +123,7 @@ public class ParticleManager : MonoBehaviour
             GameObject particleObject = createParticle(emitterSource.transform.position);
             
             Particle particleBehaviour = particleObject.AddComponent<Particle>();
-            particleBehaviour.initializeParticleInstance(mass, ttl, enableGravity);
+            particleBehaviour.initializeParticleInstance(mass, ttl);
 
             Vector3 thrust = emissionDirection * impulse;
 
@@ -106,6 +136,7 @@ public class ParticleManager : MonoBehaviour
             particleBehaviour.setScale(particleScale);
 
             particleBehaviour.activateParticle();
+            particles.Add(particleBehaviour);
         }    
 
     }
