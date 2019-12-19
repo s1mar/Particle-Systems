@@ -38,3 +38,9 @@ to their dynamic attributes
  ### Demo
  ![](psdemo.gif)  
  If gif not viewable, please checkout the YouTube Link: <https://youtu.be/eslsMUzghZ4>  
+
+ ## Extras
+
+ ### Collision of particles with a static wall
+ ![](wall.gif)
+ If gif not viewable, please checkout the YouTube Link: <>

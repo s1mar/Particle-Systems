@@ -264,7 +264,7 @@ PrefabInstance:
     - target: {fileID: 114672053040715398, guid: 1de1ff9bbb5c1a74bbe6f84e272756d5,
         type: 3}
       propertyPath: enableGravity
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114672053040715398, guid: 1de1ff9bbb5c1a74bbe6f84e272756d5,
         type: 3}
