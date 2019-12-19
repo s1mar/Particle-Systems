@@ -43,4 +43,4 @@ to their dynamic attributes
 
  ### Collision of particles with a static wall
  ![](wall.gif)
- If gif not viewable, please checkout the YouTube Link: <>
+ If gif not viewable, please checkout the YouTube Link: <https://youtu.be/8bdWzFA6IQ4>
